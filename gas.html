@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FuelExpress - Remote Gasoline Ordering</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="ui.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1><i class="fas fa-gas-pump"></i> FuelExpress</h1>
+        <nav>
+          <ul>
+            <li><a href="#" class="active" id="home-link">Home</a></li>
+            <li><a href="#" id="order-link">Order Fuel</a></li>
+            <li><a href="#" id="track-link">Track Order</a></li>
+            <li><a href="#" id="account-link">Account</a></li>
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          <button id="login-btn">Login</button>
+          <button id="signup-btn">Sign Up</button>
+          <button id="logout-btn" style="display: none">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Login Modal -->
+      <div id="login-modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Login to Your Account</h2>
+          <form id="login-form">
+            <div class="form-group">
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" required />
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" required />
+            </div>
+            <button type="submit">Login</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Signup Modal -->
+      <div id="signup-modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Create New Account</h2>
+          <form id="signup-form">
+            <div class="form-group">
+              <label for="signup-name">Full Name</label>
+              <input type="text" id="signup-name" required />
+            </div>
+            <div class="form-group">
+              <label for="signup-email">Email</label>
+              <input type="email" id="signup-email" required />
+            </div>
+            <div class="form-group">
+              <label for="signup-phone">Phone Number</label>
+              <input type="tel" id="signup-phone" required />
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Password</label>
+              <input type="password" id="signup-password" required />
+            </div>
+            <div class="form-group">
+              <label for="signup-vehicle">Vehicle Type</label>
+              <select id="signup-vehicle" required>
+                <option value="">Select Vehicle</option>
+                <option value="car">Car</option>
+                <option value="motorcycle">Motorcycle</option>
+                <option value="truck">Truck</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <button type="submit">Create Account</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Home Section -->
+      <section id="home-section">
+        <div class="hero">
+          <h2>Never Run Out of Fuel Again</h2>
+          <p>
+            Order gasoline from nearby stations and have it delivered to your
+            exact location
+          </p>
+          <button id="order-now-btn">Order Now</button>
+        </div>
+
+        <div class="features">
+          <div class="feature-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Real-Time Tracking</h3>
+            <p>
+              Track your fuel delivery in real-time from station to your
+              location
+            </p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-clock"></i>
+            <h3>Fast Delivery</h3>
+            <p>Get your fuel delivered within 30-60 minutes of ordering</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-gas-pump"></i>
+            <h3>Multiple Stations</h3>
+            <p>Choose from various petrol stations with competitive prices</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Order Section -->
+      <section id="order-section" style="display: none">
+        <div class="order-steps">
+          <div class="step active" id="step1">1. Select Station</div>
+          <div class="step" id="step2">2. Choose Fuel</div>
+          <div class="step" id="step3">3. Confirm Order</div>
+        </div>
+
+        <div class="step-content" id="step1-content">
+          <h3>Select a Nearby Station</h3>
+          <div class="search-box">
+            <input
+              type="text"
+              id="station-search"
+              placeholder="Search stations..."
+            />
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="stations-list" id="stations-list">
+            <!-- Stations will be loaded here -->
+          </div>
+        </div>
+
+        <div class="step-content" id="step2-content" style="display: none">
+          <div class="selected-station-info" id="selected-station-info">
+            <!-- Selected station info will be here -->
+          </div>
+          <div class="fuel-options">
+            <h3>Select Fuel Type</h3>
+            <div class="fuel-types" id="fuel-types">
+              <!-- Fuel types will be loaded here -->
+            </div>
+            <div class="quantity-selector">
+              <label for="fuel-quantity">Quantity (Liters):</label>
+              <input
+                type="number"
+                id="fuel-quantity"
+                min="1"
+                max="100"
+                value="10"
+              />
+            </div>
+            <div class="location-selector">
+              <h3>Delivery Location</h3>
+              <div id="current-location">Current location will be used</div>
+              <button id="change-location-btn">Change Location</button>
+            </div>
+            <button id="proceed-to-confirm" class="next-btn">Proceed</button>
+          </div>
+        </div>
+
+        <div class="step-content" id="step3-content" style="display: none">
+          <h3>Confirm Your Order</h3>
+          <div class="order-summary" id="order-summary">
+            <!-- Order summary will be here -->
+          </div>
+          <div class="payment-options">
+            <h3>Payment Method</h3>
+            <div class="payment-option">
+              <input
+                type="radio"
+                id="cash-on-delivery"
+                name="payment"
+                value="cash"
+                checked
+              />
+              <label for="cash-on-delivery">Cash on Delivery</label>
+            </div>
+            <div class="payment-option">
+              <input
+                type="radio"
+                id="credit-card"
+                name="payment"
+                value="card"
+              />
+              <label for="credit-card">Credit/Debit Card</label>
+            </div>
+            <div id="card-details" style="display: none">
+              <div class="form-group">
+                <label for="card-number">Card Number</label>
+                <input
+                  type="text"
+                  id="card-number"
+                  placeholder="1234 5678 9012 3456"
+                />
+              </div>
+              <div class="form-group">
+                <label for="card-expiry">Expiry Date</label>
+                <input type="text" id="card-expiry" placeholder="MM/YY" />
+              </div>
+              <div class="form-group">
+                <label for="card-cvv">CVV</label>
+                <input type="text" id="card-cvv" placeholder="123" />
+              </div>
+            </div>
+          </div>
+          <button id="place-order-btn" class="confirm-btn">Place Order</button>
+        </div>
+      </section>
+
+      <!-- Track Order Section -->
+      <section id="track-section" style="display: none">
+        <h2>Track Your Order</h2>
+        <div class="tracking-container" id="tracking-container">
+          <!-- Order tracking will be displayed here -->
+        </div>
+      </section>
+
+      <!-- Account Section -->
+      <section id="account-section" style="display: none">
+        <h2>My Account</h2>
+        <div class="account-info" id="account-info">
+          <!-- Account info will be displayed here -->
+        </div>
+        <div class="account-actions">
+          <button id="edit-profile-btn">Edit Profile</button>
+          <button id="change-password-btn">Change Password</button>
+          <button id="view-history-btn">Order History</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 FuelExpress. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="Script.js"></script>
+  </body>
+</html>
